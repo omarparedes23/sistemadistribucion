@@ -5,8 +5,9 @@ import { SettlementDetailClient } from "./SettlementDetailClient";
 export default async function SettlementDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
   const supabase = await createClient();
 
   const {
@@ -35,7 +36,7 @@ export default async function SettlementDetailPage({
       seller_id,
       re_profiles!seller_id(full_name)`
     )
-    .eq("id", params.id)
+    .eq("id", id)
     .eq("branch_id", profile.branch_id)
     .single();
 

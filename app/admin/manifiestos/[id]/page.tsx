@@ -2,7 +2,8 @@ import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import { ManifestDetailClient } from "./ManifestDetailClient";
 
-export default async function ManifestDetailPage({ params }: { params: { id: string } }) {
+export default async function ManifestDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const supabase = await createClient();
 
   const {
@@ -32,7 +33,7 @@ export default async function ManifestDetailPage({ params }: { params: { id: str
       re_warehouses(name),
       re_vehicles(plate_number, capacity_kg, capacity_m3)`
     )
-    .eq("id", params.id)
+    .eq("id", id)
     .single();
 
   if (manifestError || !manifest) {
@@ -57,7 +58,7 @@ export default async function ManifestDetailPage({ params }: { params: { id: str
         `manifest_id, order_id, delivery_sequence, delivery_status,
         re_orders(id, status, total, re_customers(legal_name, trade_name))`
       )
-      .eq("manifest_id", params.id)
+      .eq("manifest_id", id)
       .order("delivery_sequence"),
     (supabase as any)
       .from("re_manifest_personnel")
@@ -65,7 +66,7 @@ export default async function ManifestDetailPage({ params }: { params: { id: str
         `manifest_id, person_id, role,
         re_profiles(full_name, role)`
       )
-      .eq("manifest_id", params.id),
+      .eq("manifest_id", id),
     supabase
       .from("re_vehicles")
       .select("id, plate_number, capacity_kg, capacity_m3")
@@ -87,7 +88,7 @@ export default async function ManifestDetailPage({ params }: { params: { id: str
     supabase
       .from("re_remission_guides")
       .select("serie, correlativo, sunat_status")
-      .eq("manifest_id", params.id)
+      .eq("manifest_id", id)
       .order("created_at", { ascending: false })
       .limit(1),
   ]);
