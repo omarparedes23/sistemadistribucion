@@ -117,7 +117,6 @@ export function ManifestDetailClient({
   approvedOrders,
   branchUsers,
   gre,
-  userRole: _userRole,
 }: {
   manifest: Manifest;
   orders: ManifestOrder[];
@@ -126,7 +125,6 @@ export function ManifestDetailClient({
   approvedOrders: ApprovedOrder[];
   branchUsers: BranchUser[];
   gre: Gre;
-  userRole: string;
 }) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);

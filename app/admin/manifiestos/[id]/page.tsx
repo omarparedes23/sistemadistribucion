@@ -101,7 +101,6 @@ export default async function ManifestDetailPage({ params }: { params: { id: str
       approvedOrders={approvedOrders ?? []}
       branchUsers={branchUsers ?? []}
       gre={gre && gre.length > 0 ? gre[0] : null}
-      userRole={profile.role}
     />
   );
 }
