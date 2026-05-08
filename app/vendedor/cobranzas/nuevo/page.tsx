@@ -6,8 +6,9 @@ import { NuevoCobroClient } from "./NuevoCobroClient";
 export default async function NuevoCobroPage({
   searchParams,
 }: {
-  searchParams?: { orderId?: string };
+  searchParams?: Promise<{ orderId?: string }>;
 }) {
+  const { orderId } = searchParams ? await searchParams : {};
   const supabase = await createClient();
 
   const {
@@ -44,7 +45,7 @@ export default async function NuevoCobroPage({
       sellerId={user.id}
       customers={customers ?? []}
       orders={ordersResult.success ? ordersResult.orders : []}
-      preselectedOrderId={searchParams?.orderId ?? null}
+      preselectedOrderId={orderId ?? null}
     />
   );
 }
