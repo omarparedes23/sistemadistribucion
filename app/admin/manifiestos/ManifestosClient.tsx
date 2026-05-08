@@ -7,7 +7,7 @@ import {
   EntityTableRow,
   EntityTableCell,
 } from "../_components/EntityTable";
-import { Eye, Plus, ClipboardList } from "lucide-react";
+import { Eye, Plus } from "lucide-react";
 import Link from "next/link";
 
 type Manifest = {

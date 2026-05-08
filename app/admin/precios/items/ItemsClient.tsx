@@ -52,7 +52,7 @@ export function ItemsClient({
     return result;
   }, null);
 
-  const [deleteState, deleteAction, isDeletePending] = useActionState<
+  const [, deleteAction, isDeletePending] = useActionState<
     PriceListItemState | null,
     FormData
   >(async (_prev, formData) => {

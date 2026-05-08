@@ -432,7 +432,7 @@ export async function registerCollectionForm(
   return registerCollection({
     branch_id,
     customer_id,
-    payment_method: payment_method as any,
+    payment_method: payment_method as "EFECTIVO" | "YAPE" | "PLIN" | "TRANSFERENCIA",
     reference_number,
     items,
   });

@@ -78,12 +78,6 @@ export function NuevoCobroClient({
     setItems((p) => p.map((i) => (i.tempId === tid ? { ...i, ...changes } : i)));
   };
 
-  const filteredOrders = orders.filter(
-    (o) => !customerId || o.re_customers?.legal_name === customers.find((c) => c.id === customerId)?.legal_name
-    // We don't have a direct customer_id on Order type from getOrdersWithOutstandingBalance.
-    // The orders query didn't select customer_id. To keep it simple, we show all seller orders.
-  );
-
   const total = items.reduce((s, i) => s + (Number(i.amount) || 0), 0);
 
   const needsReference = paymentMethod !== "EFECTIVO";

@@ -411,7 +411,17 @@ export async function getOrdersWithOutstandingBalance(
   const user = await getCurrentUser(supabase);
   const targetSellerId = sellerId ?? user.id;
 
-  const { data: orders, error } = await (supabase as any)
+  type OrderRaw = {
+    id: string;
+    status: string;
+    payment_status: string;
+    total: number;
+    notes: string | null;
+    created_at: string;
+    re_customers: { legal_name: string; trade_name: string | null } | null;
+  };
+
+  const { data: ordersRaw, error } = await supabase
     .from("re_orders")
     .select(
       `id, status, payment_status, total, notes, created_at,
@@ -425,7 +435,8 @@ export async function getOrdersWithOutstandingBalance(
     return { success: false, error: error.message };
   }
 
-  const orderIds = (orders ?? []).map((o: any) => o.id);
+  const orders = (ordersRaw ?? []) as unknown as OrderRaw[];
+  const orderIds = orders.map((o) => o.id);
 
   let itemsAgg: { order_id: string; amount_applied: number }[] = [];
   if (orderIds.length > 0) {
@@ -436,7 +447,7 @@ export async function getOrdersWithOutstandingBalance(
     itemsAgg = agg ?? [];
   }
 
-  const ordersWithBalance: OrderWithBalance[] = (orders ?? []).map((o: any) => {
+  const ordersWithBalance: OrderWithBalance[] = orders.map((o) => {
     const collected = itemsAgg
       .filter((i) => i.order_id === o.id)
       .reduce((s, i) => s + Number(i.amount_applied), 0);

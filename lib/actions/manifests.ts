@@ -44,7 +44,8 @@ async function computeCapacityAdvisory(
   if (!manifest || !manifest.vehicle_id) return undefined;
 
   const warnings: string[] = [];
-  const vehicle = (manifest as any).re_vehicles;
+  type VehicleCapacity = { capacity_kg: number | null; capacity_m3: number | null } | null;
+  const vehicle = (manifest as unknown as { re_vehicles: VehicleCapacity }).re_vehicles;
 
   if (vehicle?.capacity_kg != null && manifest.total_weight_kg > vehicle.capacity_kg) {
     const excess = manifest.total_weight_kg - vehicle.capacity_kg;

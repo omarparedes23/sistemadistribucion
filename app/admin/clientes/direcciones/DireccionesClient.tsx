@@ -50,7 +50,7 @@ export function DireccionesClient({
     return result;
   }, null);
 
-  const [deleteState, deleteAction, isDeletePending] = useActionState<
+  const [, deleteAction, isDeletePending] = useActionState<
     CustomerAddressState | null,
     FormData
   >(async (_prev, formData) => {

@@ -11,7 +11,6 @@ import {
   assignVehicle,
   confirmManifest,
   transitionManifestToEnRoute,
-  type ManifestState,
 } from "@/lib/actions/manifests";
 import {
   ArrowLeft,
@@ -118,7 +117,7 @@ export function ManifestDetailClient({
   approvedOrders,
   branchUsers,
   gre,
-  userRole,
+  userRole: _userRole,
 }: {
   manifest: Manifest;
   orders: ManifestOrder[];
